@@ -38,6 +38,7 @@ void Server::start(void)
 	boost::asio::io_service & tmp_io_service = io_service_pool_.get_io_service(serial_num);
 	//session_ptr new_chat_session(new Session(io_service_pool_.get_io_service()));
 	session_ptr new_chat_session(new Session(tmp_io_service, serial_num, &io_service_pool_));
+  //m_arrSessions.push_back(new_chat_session);
 
 	acceptor_.async_accept(new_chat_session->socket(),
 		boost::bind(&Server::accept_handler, this, new_chat_session,
@@ -65,6 +66,7 @@ void Server::callback_session(std::string /*_fromIp*/, std::string /*_info*/)
 void Server::accept_handler(session_ptr _chatSession, const boost::system::error_code& _error) {
 	if (!_error && _chatSession) {
 		try {
+      m_arrSessions.push_back(_chatSession);
 			_chatSession->start();
 			start();
 		}
@@ -82,4 +84,10 @@ void Server::threadstart()
 void Server::thread_end()
 {
 
+}
+
+void Server::SendData(const std::string& msg)
+{
+  for(auto i = 0; i < m_arrSessions.size(); ++i)
+    m_arrSessions[i]->SendData(msg);
 }

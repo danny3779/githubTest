@@ -30,6 +30,10 @@ public:
 	// socket 实例
 	boost::asio::ip::tcp::socket& socket(void);
 
+  void SendData(const std::string& msg);
+
+  std::string m_msg;
+
 private:
 
 	// 第一个协议包

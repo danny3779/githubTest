@@ -5,35 +5,61 @@
 
 
 #include <iostream>
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
-#include <boost/thread.hpp>
+using namespace  std;
 
-#include "Server.h"
+class Array {
+public:
+  Array(int size) : size_(size) {
+    cout << "cccc" << endl;
+    data_ = new int[size_];
+  }
+  // 深拷贝构造
+  Array(const Array& temp_array) {
+    size_ = temp_array.size_;
+    data_ = new int[size_];
+    for (int i = 0; i < size_; i ++) {
+      data_[i] = temp_array.data_[i];
+    }
+  }
 
-int main(void) {
-	try {
-		std::cout << "server start." << std::endl;
-		// 建造服务对象
-		//boost::asio::io_service ios;
-		// 具体的服务器地址与端口
-		//boost::asio::ip::tcp::endpoint endpotion(boost::asio::ip::tcp::v4(), 13695);
-		// 构建Server实例
-		Server server(12345, 2);//ios, endpotion);
-		// 启动异步调用事件处理循环
-		//server.run();
-		boost::shared_ptr<boost::thread> t(new boost::thread(boost::bind(&Server::run, &server)));
-		//t->join();
-		while (true)
-		{
-			boost::thread::sleep(boost::get_system_time() + boost::posix_time::seconds(10));
-		}
-		server.stop();
-	}
-	catch (std::exception& _e) {
-		std::cout << _e.what() << std::endl;
-	}
-	std::cout << "server end." << std::endl;
-	
-	return 0;
+  // 深拷贝赋值
+  Array& operator=(const Array& temp_array) {
+    delete[] data_;
+
+    size_ = temp_array.size_;
+    data_ = new int[size_];
+    for (int i = 0; i < size_; i ++) {
+      data_[i] = temp_array.data_[i];
+    }
+  }
+
+  ~Array() {
+    delete[] data_;
+    cout << "~dddd" << endl;
+  }
+
+public:
+  int *data_;
+  int size_;
+};
+
+Array GetArr()
+{
+  Array my(5);
+  //return my;
+  Array res = std::move(my);
+  return std::move(res);
+}
+
+auto MyAdd(int a, int b)
+{
+  return a + b;
+}
+
+int main(void)
+{
+  auto res = MyAdd(3, 5);
+
+  
+  return 0;
 }

@@ -50,7 +50,7 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\src\silkway.ams.git.20140521.20231104\Source\ExternalLib\include\boost_1_57_0;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\src\silkway.ams.git.20140521.20231104\Source\ExternalLib\lib\boost_1_57_0\win32\vs10_0;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\src\silkway.ams.git.20140521.20231104\Source\ExternalLib\lib\boost_1_57_0\win32\vs10_0;D:\src\20210325-Code-ServiceOld\contrib\eventTraceAPI\Debug\Win32\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -101,6 +101,8 @@
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\src\20210325-Code-ServiceOld\contrib\eventTraceAPI\ETDefines.h" />
+    <ClInclude Include="..\..\..\..\..\src\20210325-Code-ServiceOld\contrib\eventTraceAPI\ETMacro.h" />
     <ClInclude Include="io_service_pool.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Session.h" />

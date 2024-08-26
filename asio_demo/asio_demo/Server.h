@@ -5,6 +5,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "io_service_pool.h"
+#include <vector>
 
 class Session;
 
@@ -25,6 +26,9 @@ public:
 	void stop();
 	static void threadstart();
 	static void thread_end();
+
+  void SendData(const std::string& msg);
+
 private:
 	// 数据导出接口
 	void callback_session(std::string _fromIp, std::string _info);
@@ -37,5 +41,6 @@ private:
 	boost::asio::ip::tcp::acceptor		acceptor_;
 	int									serial_num_;
 	boost::shared_ptr<io_service_pool>	io_service_ptr;
+  std::vector<session_ptr> m_arrSessions; 
 };
 #endif // __CLY_SERVER_H__

@@ -12,21 +12,21 @@ class io_service_pool
 public:
 
 	explicit io_service_pool(std::size_t pool_size)
-		: next_io_service_(0)
+		: m_nNext_io_service(0)
 	{ 
 		for (std::size_t i = 0; i < pool_size; ++ i)
 		{
 			io_service_sptr io_service(new boost::asio::io_service);
 			work_sptr work(new boost::asio::io_service::work(*io_service));
-			io_services_.push_back(io_service);
-			work_.push_back(work);
+			m_arr_io_services.push_back(io_service);
+			m_arr_work.push_back(work);
 		}
-		for (std::size_t i = 0; i < io_services_.size(); ++ i)
+		for (std::size_t i = 0; i < m_arr_io_services.size(); ++ i)
 		{
 			boost::shared_ptr<boost::thread> thread(new boost::thread(
-				boost::bind(&boost::asio::io_service::run, io_services_[i])));
-			thread_status_vector_.push_back(0);
-			threads_.push_back(thread);
+				boost::bind(&boost::asio::io_service::run, m_arr_io_services[i])));
+			m_arr_thread_status.push_back(0);
+			m_arr_threads.push_back(thread);
 		}
 	}
 
@@ -37,17 +37,17 @@ public:
 
 	void join()
 	{
-		for (std::size_t i = 0; i < threads_.size(); ++ i)
+		for (std::size_t i = 0; i < m_arr_threads.size(); ++ i)
 		{
-			threads_[i]->join();
+			m_arr_threads[i]->join();
 		} 
 	}
 
 	void stop()
 	{ 
-		for (std::size_t i = 0; i < io_services_.size(); ++ i)
+		for (std::size_t i = 0; i < m_arr_io_services.size(); ++ i)
 		{
-			io_services_[i]->stop();
+			m_arr_io_services[i]->stop();
 		}
 	}
 
@@ -67,14 +67,22 @@ private:
 	typedef boost::shared_ptr<boost::asio::io_service::work> work_sptr;
 	typedef boost::shared_ptr<boost::thread> thread_sptr;
 
-	boost::mutex										mtx;
+	boost::mutex										m_mtx;
 
-	std::vector<io_service_sptr>						io_services_;
-	std::vector<work_sptr>								work_;
-	std::vector<thread_sptr>							threads_; 
-	std::map<std::string, bool>							thread_status_map_;
-	std::vector<int>									thread_status_vector_;
-	std::size_t											next_io_service_;
+  // ios容器
+	std::vector<io_service_sptr>						m_arr_io_services;
+  // 工作线程容器
+	std::vector<work_sptr>								m_arr_work;
+  // 线程容器
+	std::vector<thread_sptr>							m_arr_threads; 
+ // // 线程状态映射表
+	//std::map<std::string, bool>							m_map_thread_status;
+
+  // ios线程使用状态。 0: 未使用；1: 使用
+	std::vector<int>									m_arr_thread_status;
+
+  // 最大ios的索引index
+	std::size_t											m_nNext_io_service;
 };
 
 #endif
