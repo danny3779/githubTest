@@ -48,3 +48,11 @@ libhvDemo/libhvDemo/.vs/
 libhvDemo/libhvDemo/libhvClient/x64/Debug/
 libhvDemo/libhvDemo/libhvDemo/x64/Debug/
 libhvDemo/libhvDemo/x64/Debug/*.ilk
+libhvDemo/libhvDemo/libhvClient/*.log
+libhvDemo/libhvDemo/x64/Debug/*.log
+libhvDemo/libhvDemo/x64/Debug/kill.bat
+libhvDemo/libhvDemo/x64/Debug/libhvClient.exe
+libhvDemo/libhvDemo/x64/Debug/libhvClient.pdb
+libhvDemo/libhvDemo/x64/Debug/libhvSrv.exe
+libhvDemo/libhvDemo/x64/Debug/libhvSrv.pdb
+libhvDemo/libhvDemo/x64/Debug/run.bat

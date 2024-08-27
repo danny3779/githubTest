@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="libhvDemo.cpp">
+    <ClCompile Include="libhvServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

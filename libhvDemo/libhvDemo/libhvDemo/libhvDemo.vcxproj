@@ -77,14 +77,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>D:\testSrc\libhvDemo\header\lib\libhv_1.3.0\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\testSrc\libhvDemo\header\include\libhv_1.3.0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\header\lib\libhv_1.3.0\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\header\include\libhv_1.3.0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\header\include\libhv_1.3.0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\header\lib\libhv_1.3.0\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,7 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="libhvDemo.cpp" />
+    <ClCompile Include="libhvServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
