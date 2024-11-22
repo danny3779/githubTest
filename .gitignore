@@ -59,4 +59,6 @@ libhvDemo/libhvDemo/x64/Debug/run.bat
 libhvDemo/obj/
 libhvDemo/Win32/
 libhvDemo/x64/
-threadpool-0_2_5-src.zip
+.vs/
+boostThreadPool/obj/
+boostThreadPool/Win32/
