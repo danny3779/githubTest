@@ -1,19 +1,31 @@
-ï»¿#include "hv/TcpClient.h"
+#include "CDemo.h"
+#include "hv/TcpClient.h"
 #include "hv/htime.h"
 #include <string>
 #include <thread>
 #include <iostream>
+#include "CPacketHandler.h"
 using namespace hv;
 using namespace std;
 
-#pragma comment(lib, "hv.lib")
-
-int main(int argc, char* argv[])
+CDemo::CDemo()
 {
-  int port = 11789;
+
+}
+
+CDemo::~CDemo()
+{
+
+}
+
+int CDemo::Run()
+{
+  m_PH.AddEvent( std::bind(&CDemo::OutputWhole, this, std::placeholders::_1) );
+
+  int port = 8755;
 
   TcpClient cli;
-  int connfd = cli.createsocket(port, "47.116.208.251");
+  int connfd = cli.createsocket(port, "8.149.236.117");
   if (connfd < 0) {
     return -20;
   }
@@ -59,14 +71,22 @@ int main(int argc, char* argv[])
       printf("disconnected to %s! connfd=%d\n", peeraddr.c_str(), channel->fd());
     }
   };
-  cli.onMessage = [](const SocketChannelPtr& channel, Buffer* buf)
+  cli.onMessage = [=](const SocketChannelPtr& channel, Buffer* buf)
   {
     auto pdata = (char*)buf->data();
     auto pid = channel->fd();
 
     auto size = (int)buf->size();
 
-    // æ•°æ®åŒ…é•¿åº¦tLen
+    string msg((char*)buf->data(), (int)buf->size());
+    //std::cout << msg << std::endl;
+
+    m_PH.AddMsg(msg);
+
+    return;
+
+    /*
+    // Êı¾İ°ü³¤¶ÈtLen
     {
       string strLen((char*)buf->data() + 1, 4);
       long len = 0;
@@ -77,6 +97,7 @@ int main(int argc, char* argv[])
 
     string msg((char*)buf->data() + 5, (int)buf->size() - 5);
     std::cout << msg << std::endl;
+    */
 
     //printf("< %.*s\n", (int)buf->size(), (char*)buf->data()+5);
   };
@@ -94,22 +115,22 @@ int main(int argc, char* argv[])
 
   unpack_setting_t unpackSetting;
   memset(&unpackSetting, 0, sizeof(unpack_setting_t));
-  unpackSetting.mode = UNPACK_BY_LENGTH_FIELD; // è®¾ç½®è§£åŒ…æ¨¡å¼ï¼šæŒ‰ç…§å­—æ®µé•¿åº¦è§£åŒ…
-  unpackSetting.package_max_length = DEFAULT_PACKAGE_MAX_LENGTH; // è®¾ç½®æ•´åŒ…æœ€å¤§é•¿åº¦ï¼Œé»˜è®¤2M
-  unpackSetting.body_offset = 5; // è®¾ç½®åŒ…ä½“åç§»é‡
-  unpackSetting.length_field_offset = 1; // è®¾ç½®é•¿åº¦åç§»é‡
-  unpackSetting.length_field_bytes = 4; // è®¾ç½®é•¿åº¦å­—èŠ‚æ•°
-  unpackSetting.length_adjustment = 0; // è®¾ç½®é•¿åº¦è°ƒæ•´
-  unpackSetting.length_field_coding = ENCODE_BY_BIG_ENDIAN; // è®¾ç½®å­—èŠ‚ç¼–ç è§„åˆ™ï¼Œé»˜è®¤"å¤§å­—èŠ‚"åº
-  cli.setUnpack(&unpackSetting);
+  unpackSetting.mode = UNPACK_MODE_NONE; // ÉèÖÃ½â°üÄ£Ê½£º°´ÕÕ×Ö¶Î³¤¶È½â°ü
+  unpackSetting.package_max_length = DEFAULT_PACKAGE_MAX_LENGTH; // ÉèÖÃÕû°ü×î´ó³¤¶È£¬Ä¬ÈÏ2M
+  unpackSetting.body_offset = 0; // ÉèÖÃ°üÌåÆ«ÒÆÁ¿
+  unpackSetting.length_field_offset = 0; // ÉèÖÃ³¤¶ÈÆ«ÒÆÁ¿
+  unpackSetting.length_field_bytes = 0; // ÉèÖÃ³¤¶È×Ö½ÚÊı
+  unpackSetting.length_adjustment = 0; // ÉèÖÃ³¤¶Èµ÷Õû
+  unpackSetting.length_field_coding = ENCODE_BY_BIG_ENDIAN; // ÉèÖÃ×Ö½Ú±àÂë¹æÔò£¬Ä¬ÈÏ"´ó×Ö½Ú"Ğò
+  //cli.setUnpack(&unpackSetting);
 
   cli.start();
 
-  std::thread t([&]()
-  {
-  });
-
-  // press Enter to stop
   while (getchar() != '\n');
   return 0;
+}
+
+void CDemo::OutputWhole(const std::string& msg)
+{
+  std::cout << msg << std::endl;
 }

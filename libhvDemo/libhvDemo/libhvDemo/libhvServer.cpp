@@ -5,12 +5,17 @@ using namespace hv;
 
 #include <sstream>
 #include <iostream>
+#include <shared_mutex>
 using namespace std;
 
 #pragma comment(lib, "hv.lib")
 
 std::map<int, SocketChannelPtr> gDictChannel;
-std::mutex mtx;
+//std::mutex mtx;
+std::shared_mutex gSharedMtx;
+
+typedef std::shared_lock<std::shared_mutex> ReadLock; // 读锁
+typedef std::lock_guard<std::shared_mutex> WriteLock; // 写锁
 
 int main(int argc, char* argv[])
 {
@@ -25,8 +30,8 @@ int main(int argc, char* argv[])
   printf("server listen on port %d, listenfd=%d ...\n", port, listenfd);
   srv.onConnection = [](const SocketChannelPtr& channel)
   {
-    mtx.lock();
-    std::lock_guard<std::mutex> lck(mtx, std::adopt_lock);
+    //std::lock_guard<std::mutex> lck(mtx);
+    WriteLock lock(gSharedMtx);
 
     std::string peeraddr = channel->peeraddr();
     if (channel->isConnected())
@@ -39,6 +44,8 @@ int main(int argc, char* argv[])
       printf("%s disconnected! connfd=%d\n", peeraddr.c_str(), channel->fd());
       gDictChannel.erase(channel->fd());
     }
+
+    cout << "!!-total:" << gDictChannel.size() << endl;
 
     // //启动定时器
     //setInterval(3000, [=](TimerID timerID)
@@ -59,7 +66,7 @@ int main(int argc, char* argv[])
     ss << channel->fd();
     msg = ss.str() + msg;
     //printf("> %.*s\n", (int)buf->size(), (char*)buf->data());
-    cout << msg << endl;
+    //cout << msg << endl;
   };
 
   unpack_setting_t unpackSetting;
@@ -83,7 +90,7 @@ int main(int argc, char* argv[])
     while (true)
     {
       std::stringstream ss;
-      ss << counter++ << "..sdfsdwerewrewrewr444444!!!!!";
+      ss << counter++ << "..sdfsdwerewrewrewr444444!!!!!..sdfsdwerewrewrewr444444!!!!!..sdfsdwerewrewrewr444444!!!!!..sdfsdwerewrewrewr444444!!!!!";
       auto msg = ss.str();
 
       char headerPrefix = 'x';
@@ -93,9 +100,10 @@ int main(int argc, char* argv[])
       memcpy(&buf_new[0], &headerPrefix, sizeof(char));
       memcpy(&buf_new[0] + 1, &len_2, sizeof(len_2));
       memcpy(&buf_new[0] + 5, msg.c_str(), msg.size());
+
       {
-        mtx.lock();
-        std::lock_guard<std::mutex> lck(mtx, std::adopt_lock);
+        //std::lock_guard<std::mutex> lck(mtx);
+        ReadLock lock(gSharedMtx);
         for (auto it = gDictChannel.begin(); it != gDictChannel.end(); ++it)
         {
           // 向某个客户端发送数据
@@ -107,7 +115,7 @@ int main(int argc, char* argv[])
       srv.broadcast(&buf_new[0], buf_new.size());
 
       std::this_thread::sleep_for(std::chrono::seconds(1));
-      //std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      //std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
   });
 

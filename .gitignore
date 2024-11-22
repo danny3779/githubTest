@@ -56,3 +56,7 @@ libhvDemo/libhvDemo/x64/Debug/libhvClient.pdb
 libhvDemo/libhvDemo/x64/Debug/libhvSrv.exe
 libhvDemo/libhvDemo/x64/Debug/libhvSrv.pdb
 libhvDemo/libhvDemo/x64/Debug/run.bat
+libhvDemo/obj/
+libhvDemo/Win32/
+libhvDemo/x64/
+threadpool-0_2_5-src.zip
