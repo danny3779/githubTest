@@ -23,7 +23,8 @@ bool CDyPoolImpl::schedule(task_type const & task)
   auto curr_active = active();
   if (curr_active >= curr_size && curr_size < m_max_threads)
   {
-    size_t newSize(curr_size * 2);
+    //size_t newSize(curr_size * 2);  //  每次扩充为 2 倍
+    size_t newSize(curr_size + 10);   //  每次扩充10个线程
     bool max(false);
     if (newSize > m_max_threads)
     {

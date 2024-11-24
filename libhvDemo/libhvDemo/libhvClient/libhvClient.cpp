@@ -1,5 +1,5 @@
-﻿#include "hv/TcpClient.h"
-#include "hv/htime.h"
+﻿#include "TcpClient.h"
+#include "htime.h"
 #include <string>
 #include <thread>
 #include <iostream>

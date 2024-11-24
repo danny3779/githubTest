@@ -72,29 +72,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\header\include\libhv_1.3.0;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\header\lib\libhv_1.3.0\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\header\libhv-1.3.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\header\libhv-1.3.3\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\libhvDemo\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\libhvDemo\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\header\include\libhv_1.3.0;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\header\lib\libhv_1.3.0\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\header\libhv-1.3.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\header\libhv-1.3.3\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\libhvDemo\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\libhvDemo\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\header\include\libhv_1.3.0;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\header\lib\libhv_1.3.0\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\header\libhv-1.3.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\header\libhv-1.3.3\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\libhvDemo\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\libhvDemo\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\header\include\libhv_1.3.0;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\header\lib\libhv_1.3.0\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\header\libhv-1.3.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\header\libhv-1.3.3\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\libhvDemo\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)\libhvDemo\obj\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
